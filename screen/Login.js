@@ -30,13 +30,33 @@ const Login = ({ navigation }) => {
       const response = await axios.post(
         `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.EXPO_PUBLIC_API_KEY}`,
         {
-          email: inputValue,
-          password: password,
+          email: inputValue.trim(),
+          password: password.trim(),
           returnSecureToken: true,
         }
       );
       const idToken = response.data.idToken;
-      navigation.replace("RestPassword", { idToken });
+      const userId = response.data.localId;
+
+      const userDataResponse = await axios.get(
+        `https://assignment-732c7-default-rtdb.firebaseio.com/user/${userId}.json`
+      );
+
+      if (userDataResponse.data) {
+        if (userDataResponse.data.passwordReset) {
+          navigation.replace("Welcome");
+        } else {
+          navigation.replace("RestPassword", { idToken, userId });
+        }
+      } else {
+        await axios.put(
+          `https://assignment-732c7-default-rtdb.firebaseio.com/user/${userId}.json`,
+          {
+            passwordReset: false,
+          }
+        );
+        navigation.replace("RestPassword", { idToken, userId });
+      }
     } catch (e) {
       setError(e.response.data.error.message);
     }

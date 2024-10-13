@@ -17,7 +17,7 @@ import {
 import axios from "axios";
 
 const RestPassword = ({ navigation, route }) => {
-  const { idToken } = route.params;
+  const { idToken, userId } = route.params;
   const [oldpassword, setoldpassword] = useState("");
   const [NewPassword, setNewPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
@@ -44,7 +44,7 @@ const RestPassword = ({ navigation, route }) => {
     if (!oldpassword || !NewPassword || !ConfirmPassword) {
       return setError("All fields are required!");
     }
-    if (NewPassword !== ConfirmPassword) {
+    if (NewPassword.trim() !== ConfirmPassword.trim()) {
       return setError("Passwords do not match!");
     }
     try {
@@ -52,8 +52,15 @@ const RestPassword = ({ navigation, route }) => {
         `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${process.env.EXPO_PUBLIC_API_KEY}`,
         {
           idToken: idToken,
-          password: NewPassword,
+          password: NewPassword.trim(),
           returnSecureToken: true,
+        }
+      );
+
+      await axios.patch(
+        `https://assignment-732c7-default-rtdb.firebaseio.com/user/${userId}.json`,
+        {
+          passwordReset: true,
         }
       );
 
