@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
       const userId = response.data.localId;
 
       const userDataResponse = await axios.get(
-        `https://assignment-732c7-default-rtdb.firebaseio.com/user/${userId}.json`
+        `${process.env.EXPO_PUBLIC_API_URL}/user/${userId}.json`
       );
 
       if (userDataResponse.data) {
@@ -50,7 +50,7 @@ const Login = ({ navigation }) => {
         }
       } else {
         await axios.put(
-          `https://assignment-732c7-default-rtdb.firebaseio.com/user/${userId}.json`,
+          `${process.env.EXPO_PUBLIC_API_URL}/user/${userId}.json`,
           {
             passwordReset: false,
           }

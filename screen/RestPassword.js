@@ -58,7 +58,7 @@ const RestPassword = ({ navigation, route }) => {
       );
 
       await axios.patch(
-        `https://assignment-732c7-default-rtdb.firebaseio.com/user/${userId}.json`,
+        `${process.env.EXPO_PUBLIC_API_URL}/user/${userId}.json`,
         {
           passwordReset: true,
         }
