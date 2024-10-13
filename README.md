@@ -30,9 +30,16 @@ This Project is Create with expo and Firebase in React Native.
 
 
 
-## Deployment
+## Installation
 
-To deploy this project run
+To install this project and  run locally 
+
+Note : Create .env file and add key and database url
+```
+EXPO_PUBLIC_API_KEY=<Your Api Key>
+
+EXPO_PUBLIC_API_URL=<Your database http://link>
+```
 
 step : 1
 ```bash
@@ -46,6 +53,7 @@ step : 3
 ```bash
   npx expo start
 ```
+
 
 
 ## Features
