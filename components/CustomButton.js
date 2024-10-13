@@ -1,11 +1,11 @@
-import { Pressable, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { Pressable} from "react-native";
 
-const CustomButton = ({ScreenName, children}) => {
-  const navigation = useNavigation();
+
+const CustomButton = ({onPress, children}) => {
+
 
   return (
-    <Pressable onPress={() => navigation.navigate(`${ScreenName}`)}>
+    <Pressable onPress={onPress}>
       {children}
     </Pressable>
   );
